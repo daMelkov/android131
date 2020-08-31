@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MelkovHw131</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="registration">registration</string>
 </resources>
