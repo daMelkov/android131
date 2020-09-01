@@ -3,4 +3,7 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="registration">registration</string>
+    <string name="enter_data">Введите логин и пароль</string>
+    <string name="logon_success">Регистрация прошла успешно!</string>
+    <string name="logon_fail">Учётные данные не найдены</string>
 </resources>
