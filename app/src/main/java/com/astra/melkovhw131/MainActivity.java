@@ -50,7 +50,25 @@ public class MainActivity extends AppCompatActivity {
         btnRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String login = edtLogin.getText().toString().trim();
+                String password = edtPassword.getText().toString().trim();
 
+                // check: login not existsdenis
+                if(!Data.checkExists(MainActivity.this, login)) {
+
+                    // registration success
+                    Data.addData(MainActivity.this, login, password, false);
+                    Toast.makeText(MainActivity.this,
+                            R.string.registration_success,
+                            Toast.LENGTH_SHORT).show();
+
+                    return;
+                }
+
+                // registration fail
+                Toast.makeText(MainActivity.this,
+                        R.string.registration_fail,
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

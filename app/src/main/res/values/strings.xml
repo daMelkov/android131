@@ -4,6 +4,8 @@
     <string name="password">Password</string>
     <string name="registration">registration</string>
     <string name="enter_data">Введите логин и пароль</string>
-    <string name="logon_success">Регистрация прошла успешно!</string>
+    <string name="logon_success">Авторизация прошла успешно!</string>
     <string name="logon_fail">Учётные данные не найдены</string>
+    <string name="registration_success">Регистрация прошла успешно</string>
+    <string name="registration_fail">Учётная запись уже существует</string>
 </resources>

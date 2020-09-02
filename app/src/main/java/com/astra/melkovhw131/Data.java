@@ -8,50 +8,46 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Data {
     private static final String FILE_NAME = "data.txt";
 
+    /**
+     * Check pair "login+password" exists
+     * @param context context
+     * @param login login
+     * @param password password
+     * @return true: account exists, false: account not exists
+     */
     public static boolean checkExists(Context context, String login, String password) {
-        boolean result = false;
-
-        if (isExternalStorageReadable()) {
-            FileReader reader = null;
-            BufferedReader bufferedReader = null;
-            try {
-                // read file line by line
-                File file = new File(context.getExternalFilesDir(null), FILE_NAME);
-                reader = new FileReader(file);
-                bufferedReader = new BufferedReader(reader);
-
-                String line = bufferedReader.readLine();
-                while (line != null) {
-                    // line in format "login;format"
-                    line = bufferedReader.readLine();
-
-                    // split string on login (0) and password (1)
-                    String[] data = line.split(";");
-
-                    // check: login and password exists
-                    if(data[0].equals(login) && data[1].equals(password)) {
-                        result = true;
-                        break;
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    reader.close();
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        Map<String, String> items = getAccounts(context);
+        for(String item : items.keySet()) {
+            if(login.equals(item) && password.equals(items.get(item))) {
+                return true;
             }
         }
 
-        return result;
+        return false;
+    }
+
+    /**
+     * Check login exists (pre-registration test)
+     * @param context context
+     * @param login login
+     * @return true: login exists, false: login not exists
+     */
+    public static boolean checkExists(Context context, String login) {
+        Map<String, String> items = getAccounts(context);
+
+        for (String item : items.keySet()) {
+            if (item.equals(login)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -82,7 +78,7 @@ public class Data {
             FileWriter writer = null;
             try {
                 writer = new FileWriter(file, true);
-                writer.write(login + ";" + password);
+                writer.write(login + ";" + password + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -93,6 +89,45 @@ public class Data {
                 }
             }
         }
+    }
+
+    private static Map<String, String> getAccounts(Context context) {
+        Map<String, String> result = new HashMap<>();
+
+        if (isExternalStorageReadable()) {
+            FileReader reader = null;
+            BufferedReader bufferedReader = null;
+            try {
+                // read file line by line
+                File file = new File(context.getExternalFilesDir(null), FILE_NAME);
+                reader = new FileReader(file);
+                bufferedReader = new BufferedReader(reader);
+
+                String line = bufferedReader.readLine();
+                while (line != null) {
+                    // split string on login (0) and password (1)denis
+                    String[] data = line.split(";");
+
+                    // add one account (login+password)
+                    result.put(data[0], data[1]);
+
+                    // next denisline in format "login;format"
+                    line = bufferedReader.readLine();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    reader.close();
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return result;
     }
 
     /**
