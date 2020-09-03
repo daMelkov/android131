@@ -15,15 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // init UI widgets
         initViews();
-
-        // init file with login and password
-        initData();
-    }
-
-    private void initData() {
-        Data.addData(MainActivity.this, "", "", true);
     }
 
     private void initViews() {
@@ -57,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!Data.checkExists(MainActivity.this, login)) {
 
                     // registration success
-                    Data.addData(MainActivity.this, login, password, false);
+                    Data.addData(MainActivity.this, login, password);
                     Toast.makeText(MainActivity.this,
                             R.string.registration_success,
                             Toast.LENGTH_SHORT).show();
